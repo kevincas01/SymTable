@@ -194,7 +194,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
        returni=currnode->value;
         
         formernode=currnode->next;
-        free(formernode->string);
+        free((void*)formernode->string);
         free(formernode);
 
         return returni;
@@ -208,7 +208,8 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
                 returni=currnode->value;
         
                 formernode->next=currnode->next;
-                free(currnode->string);
+                free((void*)currnode->string);
+                
                 free(currnode);
 
                 return returni;
