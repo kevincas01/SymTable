@@ -138,7 +138,7 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey){
     assert(oSymTable!=NULL);  
     assert(pcKey!=NULL);
 
-    currnode = oSymTable->first->next;
+    currnode = oSymTable->first;
 
     while (currnode!=NULL)
     {
