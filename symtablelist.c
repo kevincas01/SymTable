@@ -75,34 +75,41 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue){
 
 /*  Check to see if pckey is inside the symbol table. If we find it
     then we can just change the value of that node that it is in*/
+
     while (currnode!=NULL)
     {
         int cmp=strcmp(currnode->string,pcKey);
         if (cmp==0)
         {
-            currnode->value=(void*)pvValue;
+            currnode->value=pvValue;
             return 0;
         }
 
         currnode = currnode->next;
     }
+
     /*  If not in the symbol table already, then we can just add the 
         key and value pair to the front*/
     new = (struct SymTablenode*)malloc(sizeof(struct SymTablenode));
+
     if (new==NULL)
     {
         return 0;
     }
     
     new->string=(const char*)malloc(strlen(pcKey)+1);
+
     strcpy((char*)new->string,pcKey);
 
     new->next=oSymTable->first;
+    new->value=pvValue
     oSymTable->first=new;
+    
 
     oSymTable->numbindings++; /* Only when we add a new key and value pair*/
     
     return 1;
+
 }
 
 void *SymTable_replace(SymTable_T oSymTable, const char *pcKey,
