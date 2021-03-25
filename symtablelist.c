@@ -109,7 +109,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue){
     oSymTable->numbindings++; /* Only when we add a new key and value pair*/
     
     return 1;
-    FIX CONST VALUES
+    /*FIX CONST VALUES*/
 
 }
 
