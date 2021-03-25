@@ -3,6 +3,7 @@
 #ifndef SYM_TABLE_INCLUDED
 #define SYM_TABLE_INCLUDED
 
+#include <stddef.h>
 
 typedef struct Stack *SymTable_T;
 
