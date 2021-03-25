@@ -6,7 +6,7 @@
 
 
 struct SymTablenode {
-    char *string;
+    const char *string;
 
     void *value;
 
@@ -56,7 +56,7 @@ void SymTable_free(SymTable_T oSymTable){
 
 size_t SymTable_getLength(SymTable_T oSymTable){
     
-    ssert(oSymTable!=NULL);
+    assert(oSymTable!=NULL);
 
     return oSymTable->numbindings;
 }
@@ -79,7 +79,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue){
         int cmp=strcmp(currnode->string,pcKey);
         if (cmp==0)
         {
-            currnode->value=pvValue;
+            currnode->value=(void*)pvValue;
             return 0;
         }
 
@@ -122,7 +122,7 @@ const void *pvValue) {
         if (cmp==0)
         {
             oldval=currnode->value;
-            currnode->value=pvValue;
+            currnode->value=(void*)pvValue;
             return oldval;
         }
 
