@@ -1,5 +1,4 @@
 
-#include<symtable
 
 #ifndef SYM_TABLE_INCLUDED
 #define SYM_TABLE_INCLUDED
