@@ -73,6 +73,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue){
     
     currnode = oSymTable->first;
 
+    
 /*  Check to see if pckey is inside the symbol table. If we find it
     then we can just change the value of that node that it is in*/
 
@@ -81,7 +82,6 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue){
         int cmp=strcmp(currnode->string,pcKey);
         if (cmp==0)
         {
-            currnode->value=pvValue;
             return 0;
         }
 
