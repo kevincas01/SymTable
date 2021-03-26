@@ -49,6 +49,7 @@ void SymTable_free(SymTable_T oSymTable){
     for ( currnode= oSymTable->first; currnode!=NULL; currnode=nextnode)
     {
         nextnode=currnode->next;
+        free(currnode->string);
         free(currnode);
     }
     
