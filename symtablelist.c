@@ -122,7 +122,6 @@ const void *pvValue) {
 
     assert(oSymTable!=NULL);
     assert(pcKey!=NULL);
-    assert(pvValue!=NULL);
 
     currnode = oSymTable->first;
 
