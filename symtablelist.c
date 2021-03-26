@@ -196,6 +196,11 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
     assert(pcKey!=NULL);
 
     formernode=oSymTable->first;
+
+    if(formernode==NULL){
+        return NULL
+    }
+    
     currnode = oSymTable->first->next;
 
     cmp=strcmp(formernode->string,pcKey);
@@ -230,7 +235,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
             currnode = currnode->next;
             formernode=formernode->next;
         }
-        
+
     }
     return NULL;
 }
