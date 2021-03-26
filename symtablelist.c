@@ -204,11 +204,11 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
     {
         oSymTable->numbindings--;
         returni=formernode->value;
+        free((void*)formernode->string);
         free(formernode);
         
-        formernode=currnode->next;
+        oSymTable->first=currnode;
         
-        free((void*)formernode->string);
         return returni;
     }
     else{
@@ -230,6 +230,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
             currnode = currnode->next;
             formernode=formernode->next;
         }
+        
     }
     return NULL;
 }
