@@ -198,13 +198,15 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
     currnode = oSymTable->first->next;
 
     cmp=strcmp(formernode->string,pcKey);
+
     if (cmp==0)
     {
-       returni=currnode->value;
-        
+        returni=formernode->value;
+        formernode
+
         formernode=currnode->next;
+        
         free((void*)formernode->string);
-        free(formernode);
 
         return returni;
     }
