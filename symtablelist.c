@@ -69,11 +69,11 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue){
 
     assert(oSymTable!=NULL);  
     assert(pcKey!=NULL);
-    assert(pvValue!=NULL);
+    /*SHOULD WE HAVE THISSSS?????*/
     
     currnode = oSymTable->first;
 
-    
+
 /*  Check to see if pckey is inside the symbol table. If we find it
     then we can just change the value of that node that it is in*/
 
