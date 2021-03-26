@@ -202,12 +202,12 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
     if (cmp==0)
     {
         returni=formernode->value;
-        formernode
-
+        free(formernode);
+        
         formernode=currnode->next;
         
         free((void*)formernode->string);
-
+        
         return returni;
     }
     else{
