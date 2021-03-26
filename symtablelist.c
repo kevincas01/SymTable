@@ -66,13 +66,12 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue){
     
     struct SymTablenode *new;
     struct SymTablenode *currnode;
+    const char* newstring;
 
     assert(oSymTable!=NULL);  
     assert(pcKey!=NULL);
-    /*SHOULD WE HAVE THISSSS?????*/
     
     currnode = oSymTable->first;
-
 
 /*  Check to see if pckey is inside the symbol table. If we find it
     then we can just change the value of that node that it is in*/
@@ -97,14 +96,16 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue){
         return 0;
     }
     
-    new->string=(const char*)malloc(strlen(pcKey)+1);
 
-    strcpy((char*)new->string,pcKey);
+    
+   newstring=(const char*)malloc(strlen(pcKey)+1);
 
+    strcpy((char*)newstring,pcKey);
+
+    new->string=newstring;
     new->next=oSymTable->first;
     new->value=pvValue;
     oSymTable->first=new;
-    
 
     oSymTable->numbindings++; /* Only when we add a new key and value pair*/
     
