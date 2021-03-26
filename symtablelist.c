@@ -198,9 +198,9 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
     formernode=oSymTable->first;
 
     if(formernode==NULL){
-        return NULL
+        return NULL;
     }
-    
+
     currnode = oSymTable->first->next;
 
     cmp=strcmp(formernode->string,pcKey);
