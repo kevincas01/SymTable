@@ -63,14 +63,15 @@ SymTable_T SymTable_new(void){
 void SymTable_free(SymTable_T oSymTable){
     struct HashTablenode *currnode;
     struct HashTablenode *nextnode;
+    size_t index;
 
     size_t size=auBucketCounts[oSymTable->bucketnum];
 
     assert(oSymTable!=NULL);
 
-    for (size_t i = 0; i < size; i++) {
+    for (index = 0; index < size; index++) {
     
-        for ( currnode=oSymTable->hashbuckets[i]; currnode!=NULL; currnode=nextnode){
+        for ( currnode=oSymTable->hashbuckets[index]; currnode!=NULL; currnode=nextnode){
             nextnode=currnode->next;
             free((void*)currnode->string);
             free(currnode);
@@ -289,14 +290,15 @@ const void *pvExtra){
 
     size_t size=auBucketCounts[oSymTable->bucketnum];
     struct HashTablenode *currnode;
+    size_t index;
 
     assert(oSymTable!=NULL);
     assert(pfApply!=NULL);
 
     assert(oSymTable!=NULL);
 
-    for (size_t i = 0; i < size; i++) {
-    
+    for (index = 0; index < size; index++) {
+
         for ( currnode=oSymTable->hashbuckets[i]; currnode!=NULL; currnode=currnode->next){
 
         (*pfApply)(currnode->string,(void*)currnode->value,(void*)pvExtra);
