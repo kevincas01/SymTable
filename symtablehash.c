@@ -299,7 +299,7 @@ const void *pvExtra){
 
     for (index = 0; index < size; index++) {
 
-        for ( currnode=oSymTable->hashbuckets[i]; currnode!=NULL; currnode=currnode->next){
+        for ( currnode=oSymTable->hashbuckets[index]; currnode!=NULL; currnode=currnode->next){
 
         (*pfApply)(currnode->string,(void*)currnode->value,(void*)pvExtra);
         }
