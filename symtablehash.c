@@ -8,18 +8,15 @@
 
 static const size_t auBucketCounts[] = {509, 1021,2039,4093,8191,16381,32749,65521};
 
-
 struct HashTablenode{
     const char *string;
-
     void *value;
-
     struct HashTablenode *next;
 
 };
 
 struct Stack {
-    struct HashTablenode *hashbuckets[65521];
+    struct HashTablenode *hashbuckets[509];
     size_t bindings;
     size_t bucketnum;
 };
@@ -48,7 +45,6 @@ SymTable_T SymTable_new(void){
     symtablenew =(SymTable_T)malloc(sizeof(struct Stack));
     /* WHAT EXACTLY ARE WE SUPPOSED TO ALLOCATE MEMORY FOR WHEN WE MAKE 
     A NEW STACK*/
-    symtablenew =(SymTable_T)calloc(auBucketCounts[0],sizeof(struct Stack));
 
     if (symtablenew==NULL)
     {
@@ -126,12 +122,14 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue){
 
     new->next=oSymTable->hashbuckets[hashnum];
     new->value=pvValue;
-   oSymTable->hashbuckets[hashnum]=new;
+    oSymTable->hashbuckets[hashnum]=new;
 
     oSymTable->bindings++;
 
      return 1;
 }
+
+
 
 void *SymTable_replace(SymTable_T oSymTable, const char *pcKey,
 const void *pvValue){
@@ -220,9 +218,6 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey){
 
 }
 
-
-/* with the expansion implentastion are we are we supposed to go back to the former 
-bucket count?*/
 
 void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
     
