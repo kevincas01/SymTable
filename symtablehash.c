@@ -119,7 +119,6 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue){
     {
        
         oSymTable=reposition(oSymTable);
-
     }
     new->string=(const char*)malloc(strlen(pcKey)+1);
 
@@ -129,8 +128,11 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue){
     new->value=pvValue;
     oSymTable->hashbuckets[hashnum]=new;
     
-     return 1;
+    return 1;
 }
+
+/* STILL PUT THE NODE INSIDE
+THEY ACT THE SAME!*/
 
 static SymTable_T reposition(SymTable_T oSymTable){
     SymTable_T newSymTable;
@@ -141,10 +143,13 @@ static SymTable_T reposition(SymTable_T oSymTable){
     size_t oldsize=auBucketCounts[oSymTable->bucketnum];
     size_t newsize=auBucketCounts[++oSymTable->bucketnum]; 
     
-    /*SOMETHING WITH REALLOC*/
-
     newSymTable->hashbuckets=(struct HashTablenode**)calloc(newsize,sizeof(struct HashTablenode*));
 
+    if (newSymTable->hashbuckets==NULL | newsize == auBucketCounts[7])
+    {
+       return oSymTable;
+    }
+    
     for (index = 0; index < oldsize; index++) {
         for ( currnode=oSymTable->hashbuckets[index]; currnode!=NULL; currnode=currnode->next){
             
@@ -158,12 +163,12 @@ static SymTable_T reposition(SymTable_T oSymTable){
             newSymTable->hashbuckets[hashnum]=new;
 
             oSymTable->hashbuckets[index]->next=currnode->next;
+
         }
      }
 
     return newSymTable;
 }
-
 
 
 void *SymTable_replace(SymTable_T oSymTable, const char *pcKey,
