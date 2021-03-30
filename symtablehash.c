@@ -119,7 +119,7 @@ static SymTable_T SymTable_reposition(SymTable_T oSymTable,size_t bnum) {
             new->value=currnode->value;
             newSymTable->hashbuckets[hashnum]=new;
 
-            oSymTable->hashbuckets[index]->next=currnode->next;
+
         }
      }
 
