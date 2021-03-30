@@ -167,10 +167,12 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue){
     if (oSymTable->bindings==auBucketCounts[bnum])
     {
         newSymTable=SymTable_reposition(oSymTable,bnum);
+        free(oSymTable->hashbuckets);
 
         oSymTable->hashbuckets=newSymTable->hashbuckets;
         oSymTable->bucketnum=newSymTable->bucketnum;
         free(newSymTable);
+        
     }
 
     new->string=(const char*)malloc(strlen(pcKey)+1);
