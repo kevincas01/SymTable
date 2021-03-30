@@ -170,6 +170,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue){
 
         oSymTable->hashbuckets=newSymTable->hashbuckets;
         oSymTable->bucketnum=newSymTable->bucketnum;
+        free(newSymTable);
     }
 
     new->string=(const char*)malloc(strlen(pcKey)+1);
