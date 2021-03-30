@@ -14,6 +14,8 @@
 
 static const size_t auBucketCounts[] = {509, 1021,2039,4093,8191,16381,32749,65521};
 
+/* Each item is stored in a HashTableNode.  HashTableNodes are linked to
+   form a list.  */
 struct HashTablenode{
     /* The key*/
     const char *string;
@@ -23,12 +25,13 @@ struct HashTablenode{
     struct HashTablenode *next;
 };
 
+/*A stack is a node that points to the first HashTableNode* . */
 struct Stack {
     /*Current size of the buckets in SymTable*/
     size_t bucketnum;
-    /*The address of the array of HashTableNodes*/
+    /*The address of the first HashTableNode* in the array*/
     struct HashTablenode **hashbuckets;
-    /*Number of bindings in the SymTable*/
+    /*Number of bindings in the Hash table*/
     size_t bindings;
 };
 /* Return a hash code for pcKey that is between 0 and uBucketCount-1,

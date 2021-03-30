@@ -10,20 +10,23 @@
 #include <string.h>
 #include <stddef.h>
 
-
+/* Each item is stored in a SymTableNode.  SymTableNodes are linked to
+   form a list.  */
 struct SymTablenode {
-    const char *string; 
-
+    /* The key*/
+    const char *string;
+    /* The value*/
     void *value;
-
+    /* The address of the next SymTablenode. */
     struct SymTablenode *next;
 
 };
-
+/*A stack is a node that points to the first SymTable Node*/
 struct Stack {
+    /* The address of the first SymTableNode. */
     struct SymTablenode *first;
+    /*Number of bindings in the Symbol table*/
     size_t numbindings;
-
 };
 
 
