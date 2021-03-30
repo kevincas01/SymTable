@@ -102,6 +102,10 @@ static SymTable_T SymTable_reposition(SymTable_T oSymTable,size_t bnum) {
     bnum++;
     newsize=auBucketCounts[bnum];
 
+    newSymTable=oSymTable;
+    newSymTable->bucketnum=bnum;
+    newSymTable->bindings=oSymTable->bindings;
+
     newSymTable->hashbuckets=(struct HashTablenode**)realloc(oSymTable->hashbuckets,newsize*sizeof(struct HashTablenode*));
 
     if (newSymTable->hashbuckets==NULL || newsize == auBucketCounts[7])
@@ -109,9 +113,7 @@ static SymTable_T SymTable_reposition(SymTable_T oSymTable,size_t bnum) {
        return oSymTable;
     }
 
-    newSymTable->bucketnum=bnum;
-    newSymTable->bindings=oSymTable->bindings;
-    newSymTable=oSymTable;
+    
     
     for (index = 0; index < oldsize; index++) {
         for ( currnode=oSymTable->hashbuckets[index]; currnode!=NULL; currnode=currnode->next){
