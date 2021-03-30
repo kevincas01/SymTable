@@ -92,9 +92,9 @@ static SymTable_T SymTable_reposition(SymTable_T oSymTable) {
     size_t oldsize=auBucketCounts[oSymTable->bucketnum++];
     size_t newsize=auBucketCounts[oSymTable->bucketnum]; 
     
-    newSymTable->hashbuckets=(struct HashTablenode**)calloc(newsize,sizeof(struct HashTablenode*));
+    newSymTable->hashbuckets=(struct HashTablenode**)realloc(oSymTable->hashbuckets,newsize);
 
-    if (newSymTable->hashbuckets==NULL | newsize == auBucketCounts[7])
+    if (newSymTable->hashbuckets==NULL || newsize == auBucketCounts[7])
     {
        return oSymTable;
     }
