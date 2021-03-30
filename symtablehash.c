@@ -36,10 +36,8 @@ static size_t SymTable_hash(const char *pcKey, size_t uBucketCount) {
 
 SymTable_T SymTable_new(void){
     SymTable_T symtablenew;
+
     symtablenew =(SymTable_T)malloc(sizeof(struct Stack));
-    /* WHAT EXACTLY ARE WE SUPPOSED TO ALLOCATE MEMORY FOR WHEN WE MAKE 
-    A NEW STACK*/
-    
 
     if (symtablenew==NULL)
     {
@@ -48,6 +46,11 @@ SymTable_T SymTable_new(void){
 
     symtablenew->hashbuckets=(struct HashTablenode**)calloc(auBucketCounts[0],sizeof(struct HashTablenode*));
 
+    if (symtablenew->hashbuckets==NULL)
+    {
+        return NULL;
+    }
+    
     symtablenew->bindings=0;
     symtablenew->bucketnum=0;
     return symtablenew;
@@ -99,8 +102,7 @@ static SymTable_T SymTable_reposition(SymTable_T oSymTable,size_t bnum) {
     bnum++;
     newsize=auBucketCounts[bnum];
 
-    newSymTable->hashbuckets=oSymTable->hashbuckets;
-    newSymTable->hashbuckets=(struct HashTablenode**)realloc(newSymTable->hashbuckets,(newsize)*sizeof(struct HashTablenode*));
+    newSymTable->hashbuckets=(struct HashTablenode**)realloc(oSymTable->hashbuckets,newsize*sizeof(struct HashTablenode*));
 
     if (newSymTable->hashbuckets==NULL || newsize == auBucketCounts[7])
     {
@@ -164,6 +166,11 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue){
     }
 
     new->string=(const char*)malloc(strlen(pcKey)+1);
+    if (new->string==NULL)
+    {
+       return 0;
+    }
+    
     strcpy((char*)new->string,pcKey);
 
     new->next=oSymTable->hashbuckets[hashnum];
