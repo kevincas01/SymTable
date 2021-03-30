@@ -169,7 +169,6 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue){
         newSymTable=SymTable_reposition(oSymTable,bnum);
 
         oSymTable->hashbuckets=newSymTable->hashbuckets;
-        oSymTable->bindings=newSymTable->bindings;
         oSymTable->bucketnum=newSymTable->bucketnum;
     }
 
@@ -180,7 +179,6 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue){
     }
     
     strcpy((char*)new->string,pcKey);
-
     new->next=oSymTable->hashbuckets[hashnum];
     new->value = (void*)pvValue;
     oSymTable->hashbuckets[hashnum]=new;
