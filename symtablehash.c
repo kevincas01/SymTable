@@ -72,7 +72,6 @@ void SymTable_free(SymTable_T oSymTable){
             free((void*)currnode->string);
             free(currnode);
         }
-        
     }
     free(oSymTable->hashbuckets);
     free(oSymTable);
@@ -90,7 +89,6 @@ static SymTable_T SymTable_reposition(SymTable_T oSymTable,size_t bnum) {
     SymTable_T newSymTable;
     struct HashTablenode *new;
     struct HashTablenode *currnode;
-    struct HashTablenode *nextnode;
     
     size_t index;
     size_t hashnum;
@@ -103,11 +101,11 @@ static SymTable_T SymTable_reposition(SymTable_T oSymTable,size_t bnum) {
     bnum++;
     newsize=auBucketCounts[bnum];
 
-    newSymTable=oSymTable;
+    newSymTable=(SymTable_T)malloc(sizeof(struct Stack));
     newSymTable->bucketnum=bnum;
     newSymTable->bindings=oSymTable->bindings;
 
-    newSymTable->hashbuckets=(struct HashTablenode**)realloc(oSymTable->hashbuckets,newsize*sizeof(struct HashTablenode*));
+    newSymTable->hashbuckets=(struct HashTablenode**)malloc(newsize*sizeof(struct HashTablenode*));
 
     if (newSymTable->hashbuckets==NULL || newsize == auBucketCounts[7])
     {
@@ -116,20 +114,22 @@ static SymTable_T SymTable_reposition(SymTable_T oSymTable,size_t bnum) {
     }
 
     for (index = 0; index < oldsize; index++) {
-        for ( currnode=oSymTable->hashbuckets[index]; currnode!=NULL; currnode=nextnode){
+        for ( currnode=oSymTable->hashbuckets[index]; currnode!=NULL; currnode=currnode->next){
 
             hashnum=SymTable_hash(currnode->string,newsize);
-            nextnode=currnode->next;
-
-            new=currnode;
+            new=(struct HashTablenode*)malloc(sizeof(struct HashTablenode));
             /*THIS MIGHT BE THE PROBLEMMM*/
             new->next=newSymTable->hashbuckets[hashnum];
             new->string=currnode->string;
             new->value=currnode->value;
             newSymTable->hashbuckets[hashnum]=new;
+            
+            
         }
      }
+     
 
+     
     return newSymTable;
 }
 
@@ -168,8 +168,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue){
     if (oSymTable->bindings==auBucketCounts[bnum])
     {
         newSymTable=SymTable_reposition(oSymTable,bnum);
-        
-        oSymTable=newSymTable;
+
         oSymTable->hashbuckets=newSymTable->hashbuckets;
         oSymTable->bucketnum=newSymTable->bucketnum;
     }
