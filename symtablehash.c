@@ -100,6 +100,8 @@ static SymTable_T SymTable_reposition(SymTable_T oSymTable) {
     {
        return oSymTable;
     }
+    newSymTable->bucketnum=oSymTable->bucketnum;
+    newSymTable->bindings=oSymTable->bindings;
     
     for (index = 0; index < oldsize; index++) {
         for ( currnode=oSymTable->hashbuckets[index]; currnode!=NULL; currnode=currnode->next){
