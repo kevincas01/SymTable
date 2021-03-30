@@ -117,10 +117,11 @@ static SymTable_T SymTable_reposition(SymTable_T oSymTable,size_t bnum) {
         for ( currnode=oSymTable->hashbuckets[index]; currnode!=NULL; currnode=currnode->next){
             hashnum=SymTable_hash(currnode->string,newsize);
 
+            new=currnode;
             new->next=newSymTable->hashbuckets[hashnum];
             new->string=currnode->string;
             new->value=currnode->value;
-            new=currnode;
+           
             newSymTable->hashbuckets[hashnum]=new;
             
         }
