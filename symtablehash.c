@@ -124,11 +124,10 @@ static SymTable_T SymTable_reposition(SymTable_T oSymTable,size_t bnum) {
             new->value=currnode->value;
             newSymTable->hashbuckets[hashnum]=new;
             
-            
+            free(currnode);
         }
      }
-     
-
+    
      
     return newSymTable;
 }
@@ -341,7 +340,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
 
 void SymTable_map(SymTable_T oSymTable,
 void (*pfApply)(const char *pcKey, void *pvValue, void *pvExtra),
-const void *pvExtra){
+const void *pvExtra) {
 
     size_t size=auBucketCounts[oSymTable->bucketnum];
     struct HashTablenode *currnode;
