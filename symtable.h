@@ -1,4 +1,7 @@
-
+/*--------------------------------------------------------------------*/
+/* symtable.h                                                           */
+/* Author: Kevin Castro                                               */
+/*--------------------------------------------------------------------*/
 
 #ifndef SYM_TABLE_INCLUDED
 #define SYM_TABLE_INCLUDED
@@ -43,12 +46,20 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey);
 oSymTable if it exists. Returns NULL if no such binding exists */
 void *SymTable_get(SymTable_T oSymTable, const char *pcKey);
 
-
+/* Returns a void * to the value of the binding with key pcKey if it 
+exists in oSymTable and removes the binding from the table. Returns 
+NULL if the binding with key pcKey does not exist in oSymTable*/
 void *SymTable_remove(SymTable_T oSymTable, const char *pcKey);
 
+/*Applies the function *pfApply to the bindings in oSymTable. The 
+function  *pfApply takes three parameters: a key pcKey, value pvValue, 
+and an extra parameter, pvExtra. */
 void SymTable_map(SymTable_T oSymTable,
 void (*pfApply)(const char *pcKey, void *pvValue, void *pvExtra),
 const void *pvExtra);
 
 
 #endif
+
+
+/* DO WE HAVE TO SPECIFY IF WE DONT RETURN ANYTHING???

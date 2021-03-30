@@ -1,3 +1,9 @@
+/*--------------------------------------------------------------------*/
+/* symtablehash.c                                                             */
+/* Author: Kevin Castro                                               */
+/*--------------------------------------------------------------------*/
+
+
 #include <stdio.h>
 #include "symtable.h"
 #include <assert.h>
@@ -101,13 +107,15 @@ static SymTable_T SymTable_reposition(SymTable_T oSymTable,size_t bnum) {
     bnum++;
     newsize=auBucketCounts[bnum];
 
+    
+    
     newSymTable=(SymTable_T)malloc(sizeof(struct Stack));
     newSymTable->bucketnum=bnum;
     newSymTable->bindings=oSymTable->bindings;
 
     newSymTable->hashbuckets=(struct HashTablenode**)malloc(newsize*sizeof(struct HashTablenode*));
 
-    if (newSymTable->hashbuckets==NULL || newsize == auBucketCounts[7])
+    if (newSymTable->hashbuckets==NULL)
     {
        return oSymTable;
        
@@ -147,6 +155,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue){
 
     currnode=oSymTable->hashbuckets[hashnum];
 
+
     while (currnode!=NULL)
     {
         int cmp=strcmp(currnode->string,pcKey);
@@ -156,6 +165,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue){
         }
         currnode = currnode->next;
     }
+
     new = (struct HashTablenode*)malloc(sizeof(struct HashTablenode));
     if (new==NULL)
     {
@@ -164,7 +174,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue){
     
     oSymTable->bindings++;
 
-    if (oSymTable->bindings==auBucketCounts[bnum])
+    if (oSymTable->bindings>auBucketCounts[bnum]&&bnum!=7)
     {
         newSymTable=SymTable_reposition(oSymTable,bnum);
         free(oSymTable->hashbuckets);
@@ -174,6 +184,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue){
         free(newSymTable);
         
     }
+    
 
     new->string=(const char*)malloc(strlen(pcKey)+1);
     if (new->string==NULL)
@@ -277,12 +288,9 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey){
     }
 
     return NULL;
-
 }
 
-
 void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
-    
     struct HashTablenode *currnode;
     struct HashTablenode *formernode;
     void *returni;
@@ -297,7 +305,6 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
     hashnum=SymTable_hash(pcKey,auBucketCounts[bnum]);
 
     formernode=oSymTable->hashbuckets[hashnum];
-
     if(formernode==NULL){
         return NULL;
     }

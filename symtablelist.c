@@ -1,3 +1,8 @@
+/*--------------------------------------------------------------------*/
+/* symtablelist.c                                                             */
+/* Author: Kevin Castro                                               */
+/*--------------------------------------------------------------------*/
+
 #include <stdio.h>
 #include "symtable.h"
 #include <assert.h>
@@ -7,7 +12,7 @@
 
 
 struct SymTablenode {
-    const char *string;
+    const char *string; 
 
     void *value;
 
@@ -17,7 +22,6 @@ struct SymTablenode {
 
 struct Stack {
     struct SymTablenode *first;
-
     size_t numbindings;
 
 };
@@ -27,7 +31,7 @@ SymTable_T SymTable_new(void){
 
     SymTable_T symtablenew;
 
-   symtablenew =(SymTable_T)malloc(sizeof(struct Stack));
+    symtablenew =(SymTable_T)malloc(sizeof(struct Stack));
 
     if (symtablenew==NULL)
     {
@@ -59,7 +63,6 @@ void SymTable_free(SymTable_T oSymTable){
 size_t SymTable_getLength(SymTable_T oSymTable){
     
     assert(oSymTable!=NULL);
-
     return oSymTable->numbindings;
 }
 
@@ -96,18 +99,15 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue){
         return 0;
     }
     
-
-    
     new->string=(const char*)malloc(strlen(pcKey)+1);
 
     strcpy((char*)new->string,pcKey);
 
     new->next=oSymTable->first;
-    new->value=pvValue;
+    new->value= (void*)pvValue;
     oSymTable->first=new;
 
     oSymTable->numbindings++; /* Only when we add a new key and value pair*/
-    
 
     return 1;
     /*FIX CONST VALUES*/
@@ -200,7 +200,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
         return NULL;
     }
 
-    currnode = oSymTable->first->next;
+    currnode = formernode->next;
 
     cmp=strcmp(formernode->string,pcKey);
 
@@ -251,6 +251,7 @@ const void *pvExtra){
 
     assert(oSymTable!=NULL);
     assert(pfApply!=NULL);
+
 
     for (currnode= oSymTable->first; currnode!=NULL; currnode=currnode->next)
     {
