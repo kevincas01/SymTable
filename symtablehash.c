@@ -71,6 +71,7 @@ void SymTable_free(SymTable_T oSymTable){
         }
         
     }
+    free(oSymTable->hashbuckets);
     free(oSymTable);
 }
 
@@ -89,10 +90,10 @@ static SymTable_T SymTable_reposition(SymTable_T oSymTable) {
     struct HashTablenode *currnode;
     size_t index;
     size_t hashnum;
-    size_t oldsize=auBucketCounts[oSymTable->bucketnum++];
-    size_t newsize=auBucketCounts[oSymTable->bucketnum]; 
+    size_t oldsize=auBucketCounts[oSymTable->bucketnum];
+    size_t newsize=auBucketCounts[++oSymTable->bucketnum]; 
     
-    newSymTable->hashbuckets=(struct HashTablenode**)realloc(oSymTable->hashbuckets,newsize);
+    newSymTable->hashbuckets=realloc(oSymTable->hashbuckets,newsize);
 
     if (newSymTable->hashbuckets==NULL || newsize == auBucketCounts[7])
     {
