@@ -12,18 +12,15 @@ struct HashTablenode{
     const char *string;
     void *value;
     struct HashTablenode *next;
-
 };
 
 struct Stack {
-    struct HashTablenode *hashbuckets[509];
+    struct HashTablenode ** hashbuckets;
     size_t bindings;
     size_t bucketnum;
 };
-
 /* Return a hash code for pcKey that is between 0 and uBucketCount-1,
         inclusive. */
-        
 static size_t SymTable_hash(const char *pcKey, size_t uBucketCount) {
     const size_t HASH_MULTIPLIER = 65599;
     size_t u;
@@ -37,19 +34,18 @@ static size_t SymTable_hash(const char *pcKey, size_t uBucketCount) {
     return uHash % uBucketCount;
 }    
 
-
 SymTable_T SymTable_new(void){
-
     SymTable_T symtablenew;
-
     symtablenew =(SymTable_T)malloc(sizeof(struct Stack));
     /* WHAT EXACTLY ARE WE SUPPOSED TO ALLOCATE MEMORY FOR WHEN WE MAKE 
     A NEW STACK*/
-
+    
     if (symtablenew==NULL)
     {
         return NULL;
     }
+
+    symtablenew->hashbuckets=(struct HashTablenode**)calloc(auBucketCounts[0],sizeof(struct HashTablenode*));
 
     symtablenew->bindings=0;
     symtablenew->bucketnum=0;
@@ -109,7 +105,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue){
 
         currnode = currnode->next;
     }
-     new = (struct HashTablenode*)malloc(sizeof(struct HashTablenode));
+    new = (struct HashTablenode*)malloc(sizeof(struct HashTablenode));
 
     if (new==NULL)
     {
@@ -123,7 +119,6 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue){
     new->next=oSymTable->hashbuckets[hashnum];
     new->value=pvValue;
     oSymTable->hashbuckets[hashnum]=new;
-
     oSymTable->bindings++;
 
      return 1;
