@@ -83,15 +83,20 @@ size_t SymTable_getLength(SymTable_T oSymTable){
 }
 
 
-
 static SymTable_T SymTable_reposition(SymTable_T oSymTable) {
+
     SymTable_T newSymTable;
     struct HashTablenode *new;
     struct HashTablenode *currnode;
     size_t index;
     size_t hashnum;
-    size_t oldsize=auBucketCounts[oSymTable->bucketnum++];
-    size_t newsize=auBucketCounts[oSymTable->bucketnum];
+    size_t oldsize;
+    size_t newsize;
+
+    assert(oSymTable!=NULL);
+
+    oldsize=auBucketCounts[oSymTable->bucketnum++];
+    newsize=auBucketCounts[oSymTable->bucketnum];
     
     newSymTable->hashbuckets=(struct HashTablenode**)realloc(oSymTable->hashbuckets,newsize*sizeof(struct HashTablenode*));
 
@@ -101,6 +106,7 @@ static SymTable_T SymTable_reposition(SymTable_T oSymTable) {
     }
     newSymTable->bucketnum=oSymTable->bucketnum;
     newSymTable->bindings=oSymTable->bindings;
+    newSymTable=oSymTable;
     
     for (index = 0; index < oldsize; index++) {
         for ( currnode=oSymTable->hashbuckets[index]; currnode!=NULL; currnode=currnode->next){
