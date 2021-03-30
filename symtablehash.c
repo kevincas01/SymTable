@@ -121,7 +121,8 @@ static SymTable_T SymTable_reposition(SymTable_T oSymTable,size_t bnum) {
             hashnum=SymTable_hash(currnode->string,newsize);
             nextnode=currnode->next;
 
-            new=currnode;/*THIS MIGHT BE THE PROBLEMMM*/
+            new=currnode;
+            /*THIS MIGHT BE THE PROBLEMMM*/
             new->next=newSymTable->hashbuckets[hashnum];
             new->string=currnode->string;
             new->value=currnode->value;
@@ -167,7 +168,8 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue){
     if (oSymTable->bindings==auBucketCounts[bnum])
     {
         newSymTable=SymTable_reposition(oSymTable,bnum);
-
+        
+        oSymTable=newSymTable;
         oSymTable->hashbuckets=newSymTable->hashbuckets;
         oSymTable->bucketnum=newSymTable->bucketnum;
     }
@@ -270,7 +272,6 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey){
         {
             return currnode->value;
         }
-
         currnode = currnode->next;
     }
 
