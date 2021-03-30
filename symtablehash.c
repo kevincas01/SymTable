@@ -40,6 +40,7 @@ SymTable_T SymTable_new(void){
     /* WHAT EXACTLY ARE WE SUPPOSED TO ALLOCATE MEMORY FOR WHEN WE MAKE 
     A NEW STACK*/
     
+
     if (symtablenew==NULL)
     {
         return NULL;
