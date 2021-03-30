@@ -86,7 +86,7 @@ size_t SymTable_getLength(SymTable_T oSymTable){
 }
 
 
-static struct HashTablenode** SymTable_reposition(SymTable_T oSymTable,size_t bnum) {
+static SymTable_T SymTable_reposition(SymTable_T oSymTable,size_t bnum) {
     SymTable_T newSymTable;
     struct HashTablenode *new;
     struct HashTablenode *currnode;
@@ -109,7 +109,7 @@ static struct HashTablenode** SymTable_reposition(SymTable_T oSymTable,size_t bn
 
     if (newSymTable->hashbuckets==NULL || newsize == auBucketCounts[7])
     {
-       return oSymTable->hashbuckets;
+       return oSymTable;
        
     }
 
@@ -127,11 +127,11 @@ static struct HashTablenode** SymTable_reposition(SymTable_T oSymTable,size_t bn
         }
      }
 
-    return newSymTable->hashbuckets;
+    return newSymTable;
 }
 
 int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue){
-    
+    SymTable_T newSymTable;
     struct HashTablenode *new;
     struct HashTablenode *currnode;
     size_t bnum;
@@ -164,8 +164,10 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue){
 
     if (oSymTable->bindings==auBucketCounts[bnum])
     {
-        oSymTable->hashbuckets=SymTable_reposition(oSymTable,bnum);
-        oSymTable->bucketnum++;
+        newSymTable=SymTable_reposition(oSymTable,bnum);
+        oSymTable->hashbuckets=newSymTable->hashbuckets;
+        oSymTable->bindings=newSymTable->bindings;
+        oSymTable->bucketnum=newSymTable->bucketnum;
     }
 
     new->string=(const char*)malloc(strlen(pcKey)+1);
