@@ -110,7 +110,7 @@ static struct HashTablenode** SymTable_reposition(SymTable_T oSymTable,size_t bn
 
     if (newSymTable->hashbuckets==NULL || newsize == auBucketCounts[7])
     {
-       return oSymTable;
+       return oSymTable->hashbuckets;
     }
 
     for (index = 0; index < oldsize; index++) {
