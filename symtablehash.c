@@ -178,6 +178,9 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue){
        return 0;
     }
     
+    bnum=oSymTable->bucketnum;
+    hashnum=SymTable_hash(pcKey,auBucketCounts[bnum]);
+    
     strcpy((char*)new->string,pcKey);
     new->next=oSymTable->hashbuckets[hashnum];
     new->value = (void*)pvValue;
