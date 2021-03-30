@@ -96,9 +96,10 @@ static SymTable_T SymTable_reposition(SymTable_T oSymTable,size_t bnum) {
     assert(oSymTable!=NULL);
 
     oldsize=auBucketCounts[bnum];
-    newsize=auBucketCounts[++bnum];
+    bnum++;
+    newsize=auBucketCounts[bnum];
     
-    newSymTable->hashbuckets=(struct HashTablenode**)realloc(oSymTable->hashbuckets,(newsize)* sizeof(struct HashTablenode*));
+    newSymTable->hashbuckets=(struct HashTablenode**)realloc(oSymTable->hashbuckets,(newsize) * sizeof(struct HashTablenode*));
 
     if (newSymTable->hashbuckets==NULL || newsize == auBucketCounts[7])
     {
@@ -118,8 +119,6 @@ static SymTable_T SymTable_reposition(SymTable_T oSymTable,size_t bnum) {
             new->string=currnode->string;
             new->value=currnode->value;
             newSymTable->hashbuckets[hashnum]=new;
-
-
         }
      }
 
@@ -162,6 +161,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue){
     {
         oSymTable=SymTable_reposition(oSymTable,bnum);
     }
+
     new->string=(const char*)malloc(strlen(pcKey)+1);
     strcpy((char*)new->string,pcKey);
 
