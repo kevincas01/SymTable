@@ -141,7 +141,12 @@ static SymTable_T SymTable_reposition(SymTable_T oSymTable,size_t bnum) {
 
             hashnum=SymTable_hash(currnode->string,newsize);
             new=(struct HashTablenode*)malloc(sizeof(struct HashTablenode));
-            /*THIS MIGHT BE THE PROBLEMMM*/
+
+           if (new==NULL)
+           {
+              return oSymTable;
+           }
+           
             new->next=newSymTable->hashbuckets[hashnum];
             new->string=currnode->string;
             new->value=currnode->value;
