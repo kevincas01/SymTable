@@ -129,7 +129,7 @@ static SymTable_T SymTable_reposition(SymTable_T oSymTable,size_t bnum) {
     newSymTable->bucketnum=bnum;
     newSymTable->bindings=oSymTable->bindings;
 
-    newSymTable->hashbuckets=(struct HashTablenode**)malloc(newsize*sizeof(struct HashTablenode*));
+    newSymTable->hashbuckets=(struct HashTablenode**)calloc(newsize,sizeof(struct HashTablenode*));
 
     if (newSymTable->hashbuckets==NULL)
     {
@@ -150,6 +150,7 @@ static SymTable_T SymTable_reposition(SymTable_T oSymTable,size_t bnum) {
             new->next=newSymTable->hashbuckets[hashnum];
             new->string=currnode->string;
             new->value=currnode->value;
+
             newSymTable->hashbuckets[hashnum]=new;
             
             free(currnode);
