@@ -8,11 +8,11 @@
 
 #include <stddef.h>
 
-typedef struct Stack *SymTable_T;
+/* A SymTable_T is a collection of key and value pairs */
+typedef struct Stack *SymTable_T; 
 
 /*Returns a SymTable_T that is empty with no bindings. Returns NULL
-if the memory allocation results in NULL.
-*/
+if the memory allocation results in NULL.*/
 SymTable_T SymTable_new(void);
 
 /* Frees all memory that is allocated for oSymTable. */

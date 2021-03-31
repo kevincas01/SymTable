@@ -11,7 +11,7 @@
 #include <string.h>
 #include <stddef.h>
 
-
+/*different bucket sizes for  rsizing the hash table*/
 static const size_t auBucketCounts[] = {509, 1021,2039,4093,8191,16381,32749,65521};
 
 /* Each item is stored in a HashTableNode.  HashTableNodes are linked to
