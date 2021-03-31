@@ -99,7 +99,10 @@ size_t SymTable_getLength(SymTable_T oSymTable){
     return oSymTable->bindings;
 }
 
-
+/*Repositions and rehashes the current bindings in oSymtable given the
+current size of the buckets in SymTable, bnum. Returns a new SymTable_T.
+Returns oSymTable if memory allocation fails. 
+*/
 static SymTable_T SymTable_reposition(SymTable_T oSymTable,size_t bnum) {
     SymTable_T newSymTable;
     struct HashTablenode *new;
@@ -117,8 +120,12 @@ static SymTable_T SymTable_reposition(SymTable_T oSymTable,size_t bnum) {
     newsize=auBucketCounts[bnum];
 
     
-    
     newSymTable=(SymTable_T)malloc(sizeof(struct Stack));
+    if (newSymTable==NULL)
+    {
+        return oSymTable;
+    }
+    
     newSymTable->bucketnum=bnum;
     newSymTable->bindings=oSymTable->bindings;
 
@@ -127,7 +134,6 @@ static SymTable_T SymTable_reposition(SymTable_T oSymTable,size_t bnum) {
     if (newSymTable->hashbuckets==NULL)
     {
        return oSymTable;
-       
     }
 
     for (index = 0; index < oldsize; index++) {
