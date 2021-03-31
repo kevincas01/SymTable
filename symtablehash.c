@@ -167,6 +167,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue){
     struct HashTablenode *currnode;
     size_t bnum;
     size_t hashnum;
+    size_t maximumbuck=7;
 
     assert(oSymTable!=NULL);  
     assert(pcKey!=NULL);
@@ -195,7 +196,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue){
     
     oSymTable->bindings++;
 
-    if (oSymTable->bindings>auBucketCounts[bnum]&&bnum!=7)
+    if (oSymTable->bindings>auBucketCounts[bnum]&&bnum!=maximumbuck)
     {
         newSymTable=SymTable_reposition(oSymTable,bnum);
         free(oSymTable->hashbuckets);
